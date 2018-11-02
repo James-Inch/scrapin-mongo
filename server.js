@@ -37,7 +37,7 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
     res.render("index");
 });
 
@@ -76,7 +76,22 @@ app.get("/scrape", function (req, res) {
 
         // If we were able to successfully scrape and save an Article, send a message to the client
         res.send("Scrape Complete");
+
     });
+});
+
+// Route for getting articles back as json for rendering
+app.get("/articles", function (req, res) {
+    // Grab every document in the Articles collection
+    db.Article.find({})
+        .then(function (dbArticle) {
+            // If we were able to successfully find Articles, send them back to the client
+            res.json(dbArticle);
+        })
+        .catch(function (err) {
+            // If an error occurred, send it to the client
+            res.json(err);
+        });
 });
 
 app.listen(PORT, function () {
