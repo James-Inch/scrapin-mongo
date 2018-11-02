@@ -31,38 +31,45 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
-// A GET route for scraping the thrashermagazine website
-app.get("/scrape", function (req, res) {
-    // Make a request via axios to grab the HTML body from the site of your choice
-    axios.get("http://www.thrashermagazine.com/").then(function (response) {
+// router.get("/", function(req, res) {
+//     res.redirect("/");
+// });
 
-        // Load the HTML into cheerio and save it to a variable
+
+// A GET route for scraping the echoJS website
+app.get("/scrape", function (req, res) {
+    // First, we grab the body of the html with request
+    axios.get("http://www.thrashermagazine.com/").then(function (response) {
+        // Then, we load that into cheerio and save it to $ for a shorthand selector
         var $ = cheerio.load(response.data);
 
+        // Now, we grab every h2 within an article tag, and do the following:
         $("h4.post-title").each(function (i, element) {
+            // Save an empty result object
+            var result = {};
 
-            var results = {};
-
-            // var title = $(element).text();
-            // var link = $(element).find("a").attr("href");
-
+            // Add the text and href of every link, and save them as properties of the result object
             result.title = $(this)
-            .children("a")
-            .text();
-          result.link = $(this)
-            .children("a")
-            .attr("href");
+                .children("a")
+                .text();
+            result.link = $(this)
+                .children("a")
+                .attr("href");
 
+            // Create a new Article using the `result` object built from scraping
             db.Article.create(result)
-            .then(function(dbArticle) {
-              // View the added result in the console
-              console.log(dbArticle);
-            })
-            .catch(function(err) {
-              // If an error occurred, send it to the client
-              return res.json(err);
-            });
+                .then(function (dbArticle) {
+                    // View the added result in the console
+                    console.log(dbArticle);
+                })
+                .catch(function (err) {
+                    // If an error occurred, send it to the client
+                    return res.json(err);
+                });
         });
+
+        // If we were able to successfully scrape and save an Article, send a message to the client
+        res.send("Scrape Complete");
     });
 });
 
