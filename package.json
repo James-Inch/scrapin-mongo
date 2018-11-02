@@ -1,0 +1,27 @@
+{
+  "name": "scrapin-mongo",
+  "version": "1.0.0",
+  "description": "Scraping mongo will be a simple web app that user cheerio and axios to scrape the thrasher magazine \r website for articles. \r The user will then be able to save thier favorite articles and have the ability to write note on said saved articles \r Articles and note will persist in a mongodb",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/James-Inch/scrapin-mongo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/James-Inch/scrapin-mongo/issues"
+  },
+  "homepage": "https://github.com/James-Inch/scrapin-mongo#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.0",
+    "mongoose": "^5.3.8"
+  }
+}
