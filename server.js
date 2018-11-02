@@ -1,6 +1,8 @@
 var express = require("express");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var express = require("express");
+var exphbs = require("express-handlebars");
 
 // Our scraping tools
 // Axios is a promised-based http library, similar to jQuery's Ajax method
@@ -15,6 +17,10 @@ var PORT = 3000;
 
 // Initialize Express
 var app = express();
+
+// Set Handlebars as the default templating engine.
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
 // Configure middleware
 
@@ -31,9 +37,9 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
-// router.get("/", function(req, res) {
-//     res.redirect("/");
-// });
+app.get("/", function(req, res) {
+    res.render("index");
+});
 
 
 // A GET route for scraping the echoJS website
@@ -74,5 +80,5 @@ app.get("/scrape", function (req, res) {
 });
 
 app.listen(PORT, function () {
-    console.log("App running on port " + PORT + "!");
+    console.log("Server listening on: http://localhost:" + PORT);
 });
