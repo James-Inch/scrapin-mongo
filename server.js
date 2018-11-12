@@ -1,7 +1,6 @@
 var express = require("express");
 var logger = require("morgan");
 var mongoose = require("mongoose");
-var express = require("express");
 var exphbs = require("express-handlebars");
 
 // Our scraping tools
@@ -38,10 +37,16 @@ var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 app.get("/", function (req, res) {
-    res.render("index");
+    db.Article.find({}, function(err, data) {
+        var hbsObject= {
+            article: data
+        };
+        console.log(hbsObject);
+        res.render("index", hbsObject);
+    });
 });
 
-
+    
 // A GET route for scraping the echoJS website
 app.get("/scrape", function (req, res) {
     // First, we grab the body of the html with request
@@ -92,7 +97,9 @@ app.get("/articles", function (req, res) {
             // If an error occurred, send it to the client
             res.json(err);
         });
+
 });
+
 
 app.listen(PORT, function () {
     console.log("Server listening on: http://localhost:" + PORT);
