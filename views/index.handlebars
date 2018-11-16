@@ -1,10 +1,10 @@
-<h1>hello world</h1>
+<h1>Mongo-Scraper</h1>
 
 <ul>
-{{#each article }}
+  {{#each article }}
   <li>
-    {{ this.title }}
-  </li>
-{{/each}}
+    <h4>{{ this.title }}</h4>
+    <p><a href="http://www.thrashermagazine.com/{{ this.link}}" target="_blank">http://www.thrashermagazine.com/{{ this.link}}</a></p>
+ </li>
+  {{/each}}
 </ul>
-

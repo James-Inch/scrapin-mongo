@@ -32,7 +32,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines" || "mongodb://heroku_4c3r465p:3d30skd80oshos4qsjh785d9c@ds041327.mlab.com:41327/heroku_4c3r465p";
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
@@ -46,7 +46,7 @@ app.get("/", function (req, res) {
     });
 });
 
-    
+
 // A GET route for scraping the echoJS website
 app.get("/scrape", function (req, res) {
     // First, we grab the body of the html with request
